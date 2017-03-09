@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from bluepy import sensortag
+from os.path import expanduser
 from time import sleep
 import json
 import requests
@@ -8,9 +9,14 @@ import serial
 import threading
 
 SEND_INTERVAL = 5
-API_URL = 'https://trashtalkapi.azurewebsites.net/api/trashcan/status'
+API_PREFIX = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'
 SERIAL_DEVICE = '/dev/ttyUSB0'
 SENSORTAG_MAC = 'A0:E6:F8:AF:3E:06'
+
+with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
+    device_id = file.read().strip()
+
+post_url = API_PREFIX + device_id + '/status'
 
 ultrasound = serial.Serial(SERIAL_DEVICE, 57600)
 
@@ -57,5 +63,5 @@ while True:
         }
     })
     print(sensor_data)
-    requests.post(url=API_URL, data=sensor_data)
+    requests.post(url=post_url, data=sensor_data)
     sleep(SEND_INTERVAL)

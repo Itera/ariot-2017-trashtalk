@@ -19,7 +19,8 @@ tag.IRtemperature.enable()
 tag.accelerometer.enable()
 
 arduino_readings = {
-    'distance': 0,
+    'distance1': 0,
+    'distance2': 0,
     'flame': 0
 }
 
@@ -45,7 +46,10 @@ while True:
             'y': accelerometer[1],
             'z': accelerometer[2]
         },
-        'distance': arduino_readings['distance'],
+        'distance': {
+            'sensor1': arduino_readings['distance1'],
+            'sensor2': arduino_readings['distance2']
+        },
         'flame': arduino_readings['flame'],
         'temperature': {
             'ambient': temperature[0],

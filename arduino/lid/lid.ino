@@ -7,7 +7,7 @@
 long duration1, duration2, distance1, distance2;
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(9600);
   pinMode(pinUltrasound1Trig, OUTPUT);
   pinMode(pinUltrasound2Trig, OUTPUT);
   pinMode(pinUltrasound1Echo, INPUT);

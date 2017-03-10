@@ -11,6 +11,7 @@ import threading
 SEND_INTERVAL = 5
 API_PREFIX = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'
 SERIAL_DEVICE = '/dev/ttyUSB0'
+BAUD_RATE = 9600
 SENSORTAG_MAC = 'A0:E6:F8:AF:3E:06'
 
 with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
@@ -18,7 +19,7 @@ with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
 
 post_url = API_PREFIX + device_id + '/status'
 
-ultrasound = serial.Serial(SERIAL_DEVICE, 57600)
+ultrasound = serial.Serial(SERIAL_DEVICE, BAUD_RATE)
 
 tag = sensortag.SensorTag(SENSORTAG_MAC)
 tag.IRtemperature.enable()

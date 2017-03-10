@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TrashTalkApi.Models;
@@ -9,24 +10,29 @@ namespace TrashTalkApi.Controllers
     [RoutePrefix("api/trashcan")]
     public class TrashCanController : ApiController
     {
-        [HttpGet]
-        [Route("{deviceId}/status")]
-        public async Task<IHttpActionResult> Get(Guid deviceId)
-        {
-            var device = await DocumentDbRepository<Device>.GetItemAsync(deviceId.ToString());
-            if (device == null)
-                return BadRequest("Device is not registered");
-            var result = await DocumentDbRepository<TrashCanStatus>.GetItemsAsync(list => list.DeviceId == deviceId);
-            return Ok(result);
-        }
-
         [HttpPost]
         [Route("{deviceId}/status")]
-        public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, Guid deviceId)
+        public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, string deviceId)
         {
-            trashCanStatus.DeviceId = deviceId;
+            var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
+            if (existing != null && existing.TimeStamp >= DateTime.Today)
+            {
+                existing.LatestReading = trashCanStatus;
+                existing.TrashCanStatuses.Add(trashCanStatus);
+                await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
+                return Ok();
+            }
             trashCanStatus.Timestamp = DateTime.UtcNow;
-            await DocumentDbRepository<TrashCanStatus>.CreateItemAsync(trashCanStatus);
+
+            var trashCan = new TrashCan
+            {
+                id = Guid.NewGuid().ToString(),
+                TimeStamp = DateTime.Today,
+                TrashCanStatuses = new List<TrashCanStatus> {trashCanStatus},
+                LatestReading = trashCanStatus
+            };
+
+            await DocumentDbRepository<TrashCan>.CreateItemAsync(trashCan);
             return Ok();
         }
 

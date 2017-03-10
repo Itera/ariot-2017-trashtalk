@@ -19,10 +19,17 @@ namespace TrashTalkApi.Repositories
 
         public static async Task<Document> CreateItemAsync(T item)
         {
+                
             return
                 await
-                    _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), item);
+                    _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), item, disableAutomaticIdGeneration: true);
         }
+
+        public static async Task<Document> UpdateItemAsync(string id, T item)
+        {
+            return await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id), item);
+        }
+
 
         public static async Task<T> GetItemAsync(string id)
         {

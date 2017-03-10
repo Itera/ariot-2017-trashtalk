@@ -14,7 +14,7 @@ namespace TrashTalkApi
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            DocumentDbRepository<TrashCanStatus>.Initialize();
+            DocumentDbRepository<TrashCan>.Initialize();
 
         }
     }

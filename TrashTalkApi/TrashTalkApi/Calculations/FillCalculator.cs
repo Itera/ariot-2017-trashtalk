@@ -13,8 +13,11 @@ namespace TrashTalkApi.Calculations
         public static decimal FillGrade(TrashCanStatus status)
         {
             decimal height = Math.Min(status.Distance.Sensor1, status.Distance.Sensor2);
-
-            return height / MAX_TRASH_CAN_HEIGHT;
+            if (height <= 0)
+                return (decimal) 1.0;
+            if (height >= MAX_TRASH_CAN_HEIGHT)
+                return 0;
+            return MAX_TRASH_CAN_HEIGHT/ height;
         }
     }
 }

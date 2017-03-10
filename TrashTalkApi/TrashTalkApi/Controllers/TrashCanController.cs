@@ -6,6 +6,7 @@ using System.Web.Http.Results;
 using TrashTalkApi.Models;
 using TrashTalkApi.Repositories;
 using TrashTalkApi.Calculations;
+using TrashTalkApi.WebSocket;
 
 namespace TrashTalkApi.Controllers
 {
@@ -32,6 +33,7 @@ namespace TrashTalkApi.Controllers
             await DocumentDbRepository<TrashCan>.CreateItemAsync(trashCan);
             return Ok(trashCanId);
         }
+
         [HttpPost]
         [Route("{deviceId}/status")]
         public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, string deviceId)
@@ -44,6 +46,9 @@ namespace TrashTalkApi.Controllers
             existing.LatestReading = storedTrashCanStatus;
             existing.TrashCanStatuses.Add(storedTrashCanStatus);
             await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
+            
+            var trashStream = new TrashWebSocketHandler();
+            trashStream.SendMessage(deviceId, trashCanStatus);
             return Ok();
         }
 

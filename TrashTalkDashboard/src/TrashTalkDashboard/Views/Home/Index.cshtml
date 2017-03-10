@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TrashTalkDashboard.Models.TrashCanStatus>
+﻿@model IEnumerable<TrashTalkDashboard.Models.TrashCan>
 
 <div class="row show-if-desktop top-buffer">
     <div class="col-sm-2"><strong>Distance 1</strong></div>
@@ -12,11 +12,11 @@
 @foreach (var item in Model)
 {
     <div class="row">
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor1)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor2)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Ambient)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Target)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Accelerometer.X), @Html.DisplayFor(modelItem => item.Accelerometer.Y), @Html.DisplayFor(modelItem => item.Accelerometer.Y)</div>
+        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Distance.Sensor1)</div>
+        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Distance.Sensor2)</div>
+        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Ambient)</div>
+        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Target)</div>
+        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Accelerometer.X), @Html.DisplayFor(modelItem => item.LatestReading.Accelerometer.Y), @Html.DisplayFor(modelItem => item.LatestReading.Accelerometer.Y)</div>
     </div>
 
 }

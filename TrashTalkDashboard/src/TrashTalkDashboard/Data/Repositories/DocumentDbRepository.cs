@@ -24,30 +24,27 @@ namespace TrashTalkDashboard.Data.Repositories
             Initialize();
         }
 
-        public async Task<Document> CreateItemAsync(Guid deviceId)
-        {
-            return
-                await
-                    _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(ConfigSettings.Database, ConfigSettings.Collection), deviceId);
-        }
-
         public async Task DeleteItemAsync(string deviceId)
         {
-            await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(ConfigSettings.Database, ConfigSettings.Collection, deviceId));
+            var documents = await GetItemsAsync(x => x.id == deviceId);
+            foreach (var document in documents)
+            {
+                await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(ConfigSettings.Database, ConfigSettings.Collection, document.id));
+            }
         }
 
-        public async Task<IEnumerable<TrashCanStatus>> GetItemsAsync(Expression<Func<TrashCanStatus, bool>> predicate)
+        public async Task<IEnumerable<TrashCan>> GetItemsAsync(Expression<Func<TrashCan, bool>> predicate)
         {
-            IDocumentQuery<TrashCanStatus> query = _client.CreateDocumentQuery<TrashCanStatus>(
+            IDocumentQuery<TrashCan> query = _client.CreateDocumentQuery<TrashCan>(
                 UriFactory.CreateDocumentCollectionUri(ConfigSettings.Database, ConfigSettings.Collection),
                 new FeedOptions { MaxItemCount = -1 })
                 .Where(predicate)
                 .AsDocumentQuery();
 
-            var results = new List<TrashCanStatus>();
+            var results = new List<TrashCan>();
             while (query.HasMoreResults)
             {
-                results.AddRange(await query.ExecuteNextAsync<TrashCanStatus>());
+                results.AddRange(await query.ExecuteNextAsync<TrashCan>());
             }
 
             return results;

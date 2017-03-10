@@ -9,8 +9,7 @@ namespace TrashTalkDashboard.Data.Repositories
 {
     public interface IDocumentDbRepository
     {
-        Task<Document> CreateItemAsync(Guid deviceId);
-        Task<IEnumerable<TrashCanStatus>> GetItemsAsync(Expression<Func<TrashCanStatus, bool>> predicate);
+        Task<IEnumerable<TrashCan>> GetItemsAsync(Expression<Func<TrashCan, bool>> predicate);
         Task DeleteItemAsync(string deviceId);
     }
 }

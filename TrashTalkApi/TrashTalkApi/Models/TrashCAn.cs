@@ -8,7 +8,7 @@ namespace TrashTalkApi.Models
     public class TrashCan
     {
         public string id { get; set; }
-        public TrashCanStatus LatestReading { get; set; }
+        public StoredTrashCanStatus LatestReading { get; set; }
         public List<StoredTrashCanStatus> TrashCanStatuses { get; set; }
     }
 }

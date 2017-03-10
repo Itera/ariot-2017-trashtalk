@@ -103,7 +103,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Calculations\TrashCanReadingTransformer.cs" />
+    <Compile Include="Calculations\TrashCanReadingMapper.cs" />
     <Compile Include="Calculations\FillCalculator.cs" />
     <Compile Include="Controllers\TrashCanController.cs" />
     <Compile Include="Global.asax.cs">

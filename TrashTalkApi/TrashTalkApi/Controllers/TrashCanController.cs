@@ -23,14 +23,15 @@ namespace TrashTalkApi.Controllers
 
         [HttpPost]
         [Route("{deviceId}/status")]
-        public async Task<IHttpActionResult> Post([FromBody]StoredTrashCanStatus trashCanStatus, string deviceId)
+        public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, string deviceId)
         {
+            var storedTrashCanStatus = TrashCanReadingMapper.MapToStoredCanStatus(trashCanStatus);
             var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
             if (existing != null)
             {
                 trashCanStatus.Timestamp = DateTime.UtcNow;
-                existing.LatestReading = trashCanStatus;
-                existing.TrashCanStatuses.Add(trashCanStatus);
+                existing.LatestReading = storedTrashCanStatus;
+                existing.TrashCanStatuses.Add(storedTrashCanStatus);
                 await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
                 return Ok();
             }
@@ -39,8 +40,8 @@ namespace TrashTalkApi.Controllers
             var trashCan = new TrashCan
             {
                 id = deviceId,
-                TrashCanStatuses = new List<StoredTrashCanStatus> {trashCanStatus},
-                LatestReading = trashCanStatus
+                TrashCanStatuses = new List<StoredTrashCanStatus> { storedTrashCanStatus },
+                LatestReading = storedTrashCanStatus
             };
 
             await DocumentDbRepository<TrashCan>.CreateItemAsync(trashCan);

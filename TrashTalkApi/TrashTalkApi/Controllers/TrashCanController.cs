@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using TrashTalkApi.Models;
 using TrashTalkApi.Repositories;
+using TrashTalkApi.Calculations;
 
 namespace TrashTalkApi.Controllers
 {
@@ -16,7 +17,7 @@ namespace TrashTalkApi.Controllers
             var device = await DocumentDbRepository<Device>.GetItemAsync(deviceId.ToString());
             if (device == null)
                 return BadRequest("Device is not registered");
-            var result = await DocumentDbRepository<TrashCanStatus>.GetItemsAsync(list => list.DeviceId == deviceId);
+            var result = await DocumentDbRepository<StoredTrashCanStatus>.GetItemsAsync(list => list.DeviceId == deviceId);
             return Ok(result);
         }
 
@@ -26,7 +27,8 @@ namespace TrashTalkApi.Controllers
         {
             trashCanStatus.DeviceId = deviceId;
             trashCanStatus.Timestamp = DateTime.UtcNow;
-            await DocumentDbRepository<TrashCanStatus>.CreateItemAsync(trashCanStatus);
+            StoredTrashCanStatus storableTrashCanStatus = TrashCanReadingTransformer.CalculateStoreModel(trashCanStatus);
+            await DocumentDbRepository<StoredTrashCanStatus>.CreateItemAsync(storableTrashCanStatus);
             return Ok();
         }
 

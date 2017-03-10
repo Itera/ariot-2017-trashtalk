@@ -8,7 +8,8 @@ namespace TrashTalkApi.WebSocket
 {
     public class TrashWebSocketHandler : WebSocketHandler
     {
-        private static readonly List<TrashWebSocketHandler> Clients = new List<TrashWebSocketHandler>();
+        private static readonly WebSocketCollection Clients = new WebSocketCollection();
+        //private static readonly List<TrashWebSocketHandler> Clients = new List<TrashWebSocketHandler>();
         public string DeviceId { get; set; }
 
         public override void OnOpen()
@@ -19,13 +20,14 @@ namespace TrashTalkApi.WebSocket
 
         public static void SendMessage(string deviceId, TrashCanStatus message)
         {
-            var client = Clients.FirstOrDefault(c => c.DeviceId  == deviceId);
+            Clients.Broadcast("FooBar");
+            var client = Clients.FirstOrDefault(c => ((TrashWebSocketHandler)c).DeviceId == deviceId);
 
             client?.Send(JsonConvert.SerializeObject(message));
 
-            foreach (var clients in Clients)
+            foreach (var c in Clients)
             {
-                clients.Send(clients.DeviceId);
+                c.Send(((TrashWebSocketHandler)c).DeviceId);
             }
         }
 

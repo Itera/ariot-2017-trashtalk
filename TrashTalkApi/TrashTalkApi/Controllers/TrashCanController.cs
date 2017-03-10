@@ -40,7 +40,7 @@ namespace TrashTalkApi.Controllers
             var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
             if (existing == null)
                 return NotFound();
-            trashCanStatus.Timestamp = DateTime.UtcNow;
+            storedTrashCanStatus.Timestamp = DateTime.UtcNow;
             existing.LatestReading = storedTrashCanStatus;
             existing.TrashCanStatuses.Add(storedTrashCanStatus);
             await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);

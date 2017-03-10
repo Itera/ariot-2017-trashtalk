@@ -7,6 +7,6 @@ namespace TrashTalkApi.Models
 {
     public class StoredTrashCanStatus : TrashCanStatus
     {
-        public Decimal? FillGrade {get; set;}
+        public decimal? FillGrade {get; set;}
     }
 }

@@ -1,8 +1,8 @@
-#define pinUltrasound1Trig 8
-#define pinUltrasound1Echo 7
-#define pinUltrasound2Trig 6
+#define pinUltrasound1Trig 2
+#define pinUltrasound1Echo 3
+#define pinUltrasound2Trig 4
 #define pinUltrasound2Echo 5
-#define pinFlame A0
+#define pinFlame A4
 
 long duration1, duration2, distance1, distance2;
 

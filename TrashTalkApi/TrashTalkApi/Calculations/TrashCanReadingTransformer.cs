@@ -19,7 +19,7 @@ namespace TrashTalkApi.Calculations
             result.Temperature = incomingStatus.Temperature;
             result.Timestamp = incomingStatus.Timestamp;
             result.Flame = incomingStatus.Flame;
-
+            result.LidIsClosed = incomingStatus.LidIsClosed;
             result.FillGrade = fillGrade;
 
             return result;

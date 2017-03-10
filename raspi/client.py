@@ -18,6 +18,7 @@ with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
     device_id = file.read().strip()
 
 post_url = API_PREFIX + device_id + '/status'
+post_headers = {'Content-Type': 'application/json'}
 
 ultrasound = serial.Serial(SERIAL_DEVICE, BAUD_RATE)
 
@@ -69,5 +70,5 @@ while True:
         }
     })
     print(sensor_data)
-    requests.post(url=post_url, data=sensor_data)
+    requests.post(url=post_url, headers=post_headers, data=sensor_data)
     sleep(SEND_INTERVAL)

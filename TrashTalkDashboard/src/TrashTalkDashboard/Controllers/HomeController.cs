@@ -22,7 +22,7 @@ namespace TrashTalkDashboard.Controllers
         {
             var guid = "b9686b80-e80c-423b-9c20-d965f3f1bc35";
             //await _documentDbRepository.DeleteItemAsync(guid);
-            var result = await _documentDbRepository.GetItemsAsync(list => list.id == guid);
+            var result = await _documentDbRepository.GetItemAsync(guid);
             return View(result);
         }
 

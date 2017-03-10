@@ -8,12 +8,15 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/js/site.js" />
     </environment>
     <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/js/site.js" />
+
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
 </head>
 <body>
@@ -30,8 +33,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Device" asp-action="Device">Devices</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Readings</a></li>
+                    <li><a asp-area="" asp-controller="Device" asp-action="Index">Devices</a></li>
+                    <li><a asp-area="" asp-controller="Burning" asp-action="Index">Burning</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

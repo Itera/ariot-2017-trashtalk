@@ -33,6 +33,28 @@ namespace TrashTalkDashboard.Data.Repositories
             }
         }
 
+        public async Task<Document> CreateItemAsync(TrashCan trashCan)
+        {
+            return await _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(ConfigSettings.Database, ConfigSettings.Collection), trashCan, disableAutomaticIdGeneration: true);
+        }
+
+        public async Task<TrashCan> GetItemAsync(string id)
+        {
+            try
+            {
+                Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(ConfigSettings.Database, ConfigSettings.Collection, id));
+                return (TrashCan)(dynamic)document;
+            }
+            catch (DocumentClientException e)
+            {
+                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<TrashCan>> GetItemsAsync(Expression<Func<TrashCan, bool>> predicate)
         {
             IDocumentQuery<TrashCan> query = _client.CreateDocumentQuery<TrashCan>(

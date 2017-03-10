@@ -11,5 +11,7 @@ namespace TrashTalkDashboard.Data.Repositories
     {
         Task<IEnumerable<TrashCan>> GetItemsAsync(Expression<Func<TrashCan, bool>> predicate);
         Task DeleteItemAsync(string deviceId);
+        Task<Document> CreateItemAsync(TrashCan trashCan);
+        Task<TrashCan> GetItemAsync(string id);
     }
 }

@@ -20,15 +20,17 @@ namespace TrashTalkApi.WebSocket
 
         public static void SendMessage(string deviceId, TrashCanStatus message)
         {
-            Clients.Broadcast("FooBar");
+            Clients.Broadcast("FooBar: " + Clients.Count);
             var client = Clients.FirstOrDefault(c => ((TrashWebSocketHandler)c).DeviceId == deviceId);
 
-            client?.Send(JsonConvert.SerializeObject(message));
+            var webSocketCollection = new WebSocketCollection { client };
+            webSocketCollection.Broadcast(JsonConvert.SerializeObject(message));
+            //client?.Send(JsonConvert.SerializeObject(message));
 
-            foreach (var c in Clients)
-            {
-                c.Send(((TrashWebSocketHandler)c).DeviceId);
-            }
+            //foreach (var c in Clients)
+            //{
+            //    c.Send(((TrashWebSocketHandler)c).DeviceId);
+            //}
         }
 
         public override void OnClose()

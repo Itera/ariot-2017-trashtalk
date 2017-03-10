@@ -33,10 +33,15 @@ arduino_readings = {
 
 
 def worker():
+    ultrasound.flushInput()
     while True:
         reading = ultrasound.readline().strip()
-        fields = reading.decode().split(':')
-        arduino_readings[fields[0]] = int(fields[1])
+        try:
+            fields = reading.decode().split(':')
+            if len(fields) == 2:
+                arduino_readings[fields[0]] = int(fields[1])
+        except UnicodeDecodeError:
+            pass
 
 
 thread = threading.Thread(target=worker)

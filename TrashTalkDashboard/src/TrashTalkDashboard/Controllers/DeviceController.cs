@@ -22,17 +22,6 @@ namespace TrashTalkDashboard.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Lat,Long")] TrashCan trashCan)
-        //{
-        //    var trashCanId = Guid.NewGuid();
-        //    trashCan.id = trashCanId.ToString();
-        //    trashCan.TrashCanStatuses = new List<TrashCanStatus>();
-        //    await _documentDbRepository.CreateItemAsync(trashCan);
-        //    return Ok(trashCanId);
-        //}
-
         public async Task<IActionResult> Create(decimal longitude, decimal latitude)
         {
             var trashCanId = Guid.NewGuid();

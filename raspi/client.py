@@ -48,7 +48,7 @@ def worker():
 thread = threading.Thread(target=worker)
 thread.start()
 
-sleep(5)
+sleep(2)
 
 while True:
     accelerometer = tag.accelerometer.read()

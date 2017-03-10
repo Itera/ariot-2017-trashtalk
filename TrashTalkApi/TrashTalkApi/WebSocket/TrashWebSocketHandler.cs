@@ -19,7 +19,12 @@ namespace TrashTalkApi.WebSocket
         public void SendMessage(string deviceId, TrashCanStatus message)
         {
             var client = Clients.FirstOrDefault(c => DeviceId == deviceId);
-            client?.Send(JsonConvert.SerializeObject(message));
+            if (client != null)
+                client.Send(JsonConvert.SerializeObject(message));
+            else
+            {
+                Clients.Broadcast("Could not find a matching clientId");
+            }
         }
 
         public override void OnClose()

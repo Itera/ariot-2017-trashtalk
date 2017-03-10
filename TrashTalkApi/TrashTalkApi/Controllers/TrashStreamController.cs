@@ -8,10 +8,11 @@ using TrashTalkApi.WebSocket;
 
 namespace TrashTalkApi.Controllers
 {
+    [RoutePrefix("api/trashstream")]
     public class TrashStreamController : ApiController
     {
         [HttpGet]
-        [Route("{deviceId}/status/stream")]
+        [Route("{deviceId}")]
         public HttpResponseMessage Get(string deviceId)
         {
             HttpContext.Current.AcceptWebSocketRequest(new TrashWebSocketHandler());

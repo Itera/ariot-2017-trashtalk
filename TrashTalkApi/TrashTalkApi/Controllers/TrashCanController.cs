@@ -49,6 +49,7 @@ namespace TrashTalkApi.Controllers
             
             var trashStream = new TrashWebSocketHandler();
             trashStream.SendMessage(deviceId, trashCanStatus);
+
             return Ok();
         }
 

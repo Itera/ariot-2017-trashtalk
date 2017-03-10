@@ -46,9 +46,8 @@ namespace TrashTalkApi.Controllers
             existing.LatestReading = storedTrashCanStatus;
             existing.TrashCanStatuses.Add(storedTrashCanStatus);
             await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
-            
-            var trashStream = new TrashWebSocketHandler();
-            trashStream.SendMessage(deviceId, trashCanStatus);
+
+            TrashWebSocketHandler.SendMessage(deviceId, trashCanStatus);
 
             return Ok();
         }

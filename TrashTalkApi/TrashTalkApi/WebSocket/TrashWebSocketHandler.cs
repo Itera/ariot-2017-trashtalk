@@ -17,7 +17,7 @@ namespace TrashTalkApi.WebSocket
             Clients.Add(this);
         }
 
-        public void SendMessage(string deviceId, TrashCanStatus message)
+        public static void SendMessage(string deviceId, TrashCanStatus message)
         {
             var client = Clients.FirstOrDefault(c => c.DeviceId  == deviceId);
 

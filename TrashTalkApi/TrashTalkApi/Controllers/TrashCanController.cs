@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using TrashTalkApi.Models;
 using TrashTalkApi.Repositories;
 using TrashTalkApi.Calculations;
@@ -22,29 +23,26 @@ namespace TrashTalkApi.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Create(TrashCan trashCan)
+        {
+            var trashCanId = Guid.NewGuid();
+            trashCan.id = trashCanId.ToString();
+            trashCan.TrashCanStatuses = new List<TrashCanStatus>();
+            await _documentDbRepository.CreateItemAsync(trashCan);
+            return Ok(trashCanId);
+        }
+        [HttpPost]
         [Route("{deviceId}/status")]
         public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, string deviceId)
         {
             var storedTrashCanStatus = TrashCanReadingMapper.MapToStoredCanStatus(trashCanStatus);
             var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
-            if (existing != null)
-            {
-                trashCanStatus.Timestamp = DateTime.UtcNow;
-                existing.LatestReading = storedTrashCanStatus;
-                existing.TrashCanStatuses.Add(storedTrashCanStatus);
-                await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
-                return Ok();
-            }
+            if (existing == null)
+                return NotFound();
             trashCanStatus.Timestamp = DateTime.UtcNow;
-
-            var trashCan = new TrashCan
-            {
-                id = deviceId,
-                TrashCanStatuses = new List<StoredTrashCanStatus> { storedTrashCanStatus },
-                LatestReading = storedTrashCanStatus
-            };
-
-            await DocumentDbRepository<TrashCan>.CreateItemAsync(trashCan);
+            existing.LatestReading = storedTrashCanStatus;
+            existing.TrashCanStatuses.Add(storedTrashCanStatus);
+            await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
             return Ok();
         }
 

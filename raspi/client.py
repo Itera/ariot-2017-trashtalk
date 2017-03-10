@@ -76,7 +76,7 @@ while True:
                 'sensor2': arduino_readings['distance2']
             },
             'flame': arduino_readings['flame'],
-            'lid_is_closed': lid_is_closed,
+            'lidIsClosed': lid_is_closed,
             'temperature': {
                 'ambient': temperature[0],
                 'target': temperature[1]

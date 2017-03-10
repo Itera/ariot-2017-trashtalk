@@ -26,8 +26,6 @@ namespace TrashTalkApi.Controllers
         {
             trashCanStatus.DeviceId = deviceId;
             trashCanStatus.Timestamp = DateTime.UtcNow;
-            if (trashCanStatus.Distance < 0)
-                return BadRequest("Negative distance");
             await DocumentDbRepository<TrashCanStatus>.CreateItemAsync(trashCanStatus);
             return Ok();
         }

@@ -105,7 +105,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Calculations\TrashCanReadingTransformer.cs" />
     <Compile Include="Calculations\FillCalculator.cs" />
-    <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\TrashCanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -11,6 +11,16 @@ namespace TrashTalkApi.Controllers
     [RoutePrefix("api/trashcan")]
     public class TrashCanController : ApiController
     {
+        [HttpGet]
+        [Route("{deviceId}/status/latest")]
+        public async Task<IHttpActionResult> Get(string deviceId)
+        {
+            var trashCan = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
+            if (trashCan == null)
+                return NotFound();
+            return Ok(trashCan.LatestReading);
+        }
+
         [HttpPost]
         [Route("{deviceId}/status")]
         public async Task<IHttpActionResult> Post([FromBody]StoredTrashCanStatus trashCanStatus, string deviceId)
@@ -18,6 +28,7 @@ namespace TrashTalkApi.Controllers
             var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
             if (existing != null)
             {
+                trashCanStatus.Timestamp = DateTime.UtcNow;
                 existing.LatestReading = trashCanStatus;
                 existing.TrashCanStatuses.Add(trashCanStatus);
                 await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
@@ -36,14 +47,5 @@ namespace TrashTalkApi.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        [Route("create")]
-        public async Task<IHttpActionResult> Post()
-        {
-            var deviceId = Guid.NewGuid();
-            var device = new Device { Id = deviceId, ActivationDate = DateTime.UtcNow };
-            await DocumentDbRepository<Device>.CreateItemAsync(device);
-            return Ok(deviceId);
-        }
     }
 }

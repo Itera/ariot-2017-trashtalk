@@ -13,5 +13,6 @@ namespace TrashTalkDashboard.Data.Repositories
         Task DeleteItemAsync(string deviceId);
         Task<Document> CreateItemAsync(TrashCan trashCan);
         Task<TrashCan> GetItemAsync(string id);
+        Task<IEnumerable<TrashCan>> GetAllItemsAsync();
     }
 }

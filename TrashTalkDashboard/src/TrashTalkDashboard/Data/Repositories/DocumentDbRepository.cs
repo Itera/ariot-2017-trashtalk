@@ -55,6 +55,21 @@ namespace TrashTalkDashboard.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<TrashCan>> GetAllItemsAsync()
+        {
+            IDocumentQuery<TrashCan> query = _client.CreateDocumentQuery<TrashCan>(
+              UriFactory.CreateDocumentCollectionUri(ConfigSettings.Database, ConfigSettings.Collection),
+              new FeedOptions { MaxItemCount = -1 })
+              .AsDocumentQuery();
+            var results = new List<TrashCan>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<TrashCan>());
+            }
+
+            return results;
+
+        }
         public async Task<IEnumerable<TrashCan>> GetItemsAsync(Expression<Func<TrashCan, bool>> predicate)
         {
             IDocumentQuery<TrashCan> query = _client.CreateDocumentQuery<TrashCan>(

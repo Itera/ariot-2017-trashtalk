@@ -9,5 +9,6 @@ namespace TrashTalkApi.Models
         public Distance Distance { get; set; }
         public int Flame { get; set; }
         public Temperature Temperature { get; set; }
+        public bool LidIsClosed { get; set; }
     }
 }

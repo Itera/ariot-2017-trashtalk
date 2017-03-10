@@ -8,7 +8,6 @@ namespace TrashTalkApi.Models
     public class TrashCan
     {
         public string id { get; set; }
-        public DateTime TimeStamp { get; set; }
         public TrashCanStatus LatestReading { get; set; }
         public List<TrashCanStatus> TrashCanStatuses { get; set; }
     }

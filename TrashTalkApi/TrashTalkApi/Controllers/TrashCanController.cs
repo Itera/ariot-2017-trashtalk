@@ -15,7 +15,7 @@ namespace TrashTalkApi.Controllers
         public async Task<IHttpActionResult> Post([FromBody]TrashCanStatus trashCanStatus, string deviceId)
         {
             var existing = await DocumentDbRepository<TrashCan>.GetItemAsync(deviceId);
-            if (existing != null && existing.TimeStamp >= DateTime.Today)
+            if (existing != null)
             {
                 existing.LatestReading = trashCanStatus;
                 existing.TrashCanStatuses.Add(trashCanStatus);
@@ -26,8 +26,7 @@ namespace TrashTalkApi.Controllers
 
             var trashCan = new TrashCan
             {
-                id = Guid.NewGuid().ToString(),
-                TimeStamp = DateTime.Today,
+                id = deviceId,
                 TrashCanStatuses = new List<TrashCanStatus> {trashCanStatus},
                 LatestReading = trashCanStatus
             };

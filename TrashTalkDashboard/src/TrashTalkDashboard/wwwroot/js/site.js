@@ -3,11 +3,13 @@
         e.preventDefault();
         var longitude = $('#longitude').val();
         var latitude = $('#latitude').val();
-        $.post("device/create/?longitude=" + longitude + "&latitude=" + latitude, function (data) {
+        var address = $('#address').val();
+        $.post("device/create/?longitude=" + longitude + "&latitude=" + latitude + "&address=" + encodeURIComponent(address), function (data) {
             $('#deviceIdWrapper').show();
             $('#deviceId').text(data);
             $('#longitude').val("");
             $('#latitude').val("");
+            $('#address').val("");
         });
     });
 });

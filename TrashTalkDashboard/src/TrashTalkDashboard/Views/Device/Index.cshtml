@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create new device</h2>
+<h2>Create new trash can</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
@@ -19,17 +19,24 @@
         <div class="form-group">
             <label class="col-md-2 control-label">Long</label>
             <div class="col-md-10">
-                <input asp-for="Long" id="longitude" class="form-control" />
+                <input asp-for="Long" id="longitude" class="form-control"/>
                 <span asp-validation-for="Long" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-2 control-label">Address</label>
+            <div class="col-md-10">
+                <input asp-for="Address" id="address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a class="btn btn-default btnAddDevice">Add device</a>
+                <a class="btn btn-default btnAddDevice">Add trash can</a>
             </div>
         </div>
         <div id="deviceIdWrapper" hidden>
-            <strong>Here's your device ID, you need to register it on the device for it to work on our system:</strong>
+            <strong>Here's your trash can ID, you need to register it on the device for it to work on our system:</strong>
             <div id="deviceId"></div>
         </div>
     </div>

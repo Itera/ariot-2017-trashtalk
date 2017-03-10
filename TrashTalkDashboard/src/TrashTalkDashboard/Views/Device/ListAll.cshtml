@@ -1,0 +1,33 @@
+@model IEnumerable<TrashTalkDashboard.Models.TrashCan>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Device ID</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+        
+        </tr>
+}
+    </tbody>
+</table>
+

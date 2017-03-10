@@ -22,12 +22,21 @@ namespace TrashTalkDashboard.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Create(decimal longitude, decimal latitude)
+        public async Task<IActionResult> ListAll()
+        {
+            var allTrashCans = await _documentDbRepository.GetAllItemsAsync();
+            return View(allTrashCans);
+        }
+
+        public async Task<IActionResult> Create(decimal longitude, decimal latitude, string address)
         {
             var trashCanId = Guid.NewGuid();
             var trashCan = new TrashCan
             {
                 id = trashCanId.ToString(),
+                Lat = latitude,
+                Long = longitude,
+                Address = address,
                 TrashCanStatuses = new List<TrashCanStatus>()
             };
             await _documentDbRepository.CreateItemAsync(trashCan);

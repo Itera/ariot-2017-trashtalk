@@ -23,7 +23,7 @@ def generate_distance_points():
 
 
 def generate_flame_point():
-    return random.randrange(600, 1000)
+    return random.randrange(900, 1023)
 
 
 def generate_lid_is_closed_point():

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrashTalkDashboard.Data.Repositories;
+using TrashTalkDashboard.Models;
 
 namespace TrashTalkDashboard.Controllers
 {
@@ -18,12 +16,18 @@ namespace TrashTalkDashboard.Controllers
             _documentDbRepository = documentDbRepository;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> Index(string searchString)
         {
-            var guid = "b9686b80-e80c-423b-9c20-d965f3f1bc35";
-            //await _documentDbRepository.DeleteItemAsync(guid);
-            var result = await _documentDbRepository.GetItemAsync(guid);
+            var result =  await _documentDbRepository.GetItemAsync(searchString);
+            result.TrashCanStatuses.Sort((x, y) => y.Timestamp.CompareTo(x.Timestamp));
+
             return View(result);
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         public IActionResult Error()

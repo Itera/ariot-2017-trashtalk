@@ -9,6 +9,22 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+.top-buffer{
+    margin-top: 30px;
+}
+.bottom-buffer{
+    margin-bottom: 30px;
+}
+.navbar-inverse {
+    color: white;
+    font-weight: bold;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,

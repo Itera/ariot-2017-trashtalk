@@ -5,6 +5,11 @@ namespace TrashTalkDashboard.Models
 {
     public class TrashCan
     {
+        public TrashCan()
+        {
+            LatestReading = new TrashCanStatus();
+            TrashCanStatuses = new List<TrashCanStatus>();
+        }
         public string id { get; set; }
         public decimal Lat { get; set; }
         public decimal Long { get; set; }

@@ -2,10 +2,10 @@
 <hr>
 <div></div>
 <h3>These trash cans are most likely on fire:</h3>
+
 <div class="row top-buffer">
-    <div class="col-sm-2"><strong>Device ID</strong></div>
-    <div class="col-sm-2"><strong>Distance 1</strong></div>
-    <div class="col-sm-2"><strong>Distance 2</strong></div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4"><strong>Device ID</strong></div>
     <div class="col-sm-2"><strong>Ambient temp</strong></div>
     <div class="col-sm-2"><strong>Target temp</strong></div>
     <div class="col-sm-2"><strong>Timestamp</strong></div>
@@ -13,13 +13,12 @@
 @foreach (var item in Model)
 {
     <div class="row">
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.id)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Distance.Sensor1) cm</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Distance.Sensor2) cm</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Ambient) °C</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Target) °C</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Timestamp)</div>
-    </div>
+            <div class="col-sm-1"><img src="~/images/burning can.gif" alt="Burns" style="width:50px;height:50px;"></div>
+            <div class="col-sm-4">@Html.DisplayFor(modelItem => item.id)</div>
+            <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Ambient) °C</div>
+            <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Temperature.Target) °C</div>
+            <div class="col-sm-2">@Html.DisplayFor(modelItem => item.LatestReading.Timestamp)</div>
+        </div>
 }
 
 

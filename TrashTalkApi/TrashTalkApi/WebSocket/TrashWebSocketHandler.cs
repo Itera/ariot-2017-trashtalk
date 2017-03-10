@@ -22,6 +22,11 @@ namespace TrashTalkApi.WebSocket
             var client = Clients.FirstOrDefault(c => c.DeviceId  == deviceId);
 
             client?.Send(JsonConvert.SerializeObject(message));
+
+            foreach (var clients in Clients)
+            {
+                clients.Send(clients.DeviceId);
+            }
         }
 
         public override void OnClose()

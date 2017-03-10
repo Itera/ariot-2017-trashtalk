@@ -2,14 +2,21 @@
 
 
 <hr>
+<h2>Search by device ID</h2>
+<form asp-controller="Home" asp-action="Index" method="post">
+    <input type="text" name="SearchString">
+    <input type="submit" value="Search" />
+</form>
 <div></div>
+@if (Model != null)
+{
 <h3>Latest readings for trashcan with ID: @Html.DisplayFor(modelItem => modelItem.id) </h3>
 <div class="row top-buffer">
     <div class="col-sm-2"><strong>Distance 1</strong></div>
     <div class="col-sm-2"><strong>Distance 2</strong></div>
     <div class="col-sm-2"><strong>Ambient temp</strong></div>
     <div class="col-sm-2"><strong>Target temp</strong></div>
-    <div class="col-sm-2"><strong>Accelerometer (X, Y, Z)</strong></div>
+    <div class="col-sm-2"><strong>Fillgrade</strong></div>
     <div class="col-sm-2"><strong>Timestamp</strong></div>
 </div>
 <div class="row">
@@ -17,29 +24,37 @@
     <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Distance.Sensor2) cm</div>
     <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Temperature.Ambient) °C</div>
     <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Temperature.Target) °C</div>
-    <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Accelerometer.X), @Html.DisplayFor(modelItem => modelItem.LatestReading.Accelerometer.Y), @Html.DisplayFor(modelItem => modelItem.LatestReading.Accelerometer.Y)</div>
+    <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.FillGrade)</div>
     <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Timestamp)</div>
 </div>
 
 <h3>Historical readings</h3>
 <div class="row top-buffer">
-    <div class="col-sm-2"><strong>Distance 1</strong></div>
-    <div class="col-sm-2"><strong>Distance 2</strong></div>
-    <div class="col-sm-2"><strong>Ambient temp</strong></div>
-    <div class="col-sm-2"><strong>Target temp</strong></div>
-    <div class="col-sm-2"><strong>Accelerometer (X, Y, Z)</strong></div>
-    <div class="col-sm-2"><strong>Timestamp</strong></div>
-</div>
-@foreach (var item in Model.TrashCanStatuses)
-{
-    <div class="row">
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor1) cm</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor2) cm</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Ambient) °C</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Target) °C</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Accelerometer.X), @Html.DisplayFor(modelItem => item.Accelerometer.Y), @Html.DisplayFor(modelItem => item.Accelerometer.Y)</div>
-        <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Timestamp)</div>
+    <div class="col-sm-2"><strong>Distance 1</strong>
     </div>
+    <div class="col-sm-2"><strong>Distance 2</strong>
+    </div>
+    <div class="col-sm-2"><strong>Ambient temp</strong>
+    </div>
+    <div class="col-sm-2"><strong>Target temp</strong>
+    </div>
+    <div class="col-sm-2"><strong>Accelerometer (X, Y, Z)</strong>
+    </div>
+    <div class="col-sm-2"><strong>Timestamp</strong>
+    </div>
+</div>
+
+    @foreach (var item in Model.TrashCanStatuses)
+     {
+         <div class="row">
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor1) cm</div>
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Distance.Sensor2) cm</div>
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Ambient) °C</div>
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Temperature.Target) °C</div>
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.FillGrade)</div>
+             <div class="col-sm-2">@Html.DisplayFor(modelItem => item.Timestamp)</div>
+         </div>
+     }
 }
 
 

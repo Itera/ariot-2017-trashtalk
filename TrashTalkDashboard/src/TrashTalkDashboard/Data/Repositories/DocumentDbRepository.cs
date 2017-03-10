@@ -74,7 +74,7 @@ namespace TrashTalkDashboard.Data.Repositories
         {
             IDocumentQuery<TrashCan> query = _client.CreateDocumentQuery<TrashCan>(
                 UriFactory.CreateDocumentCollectionUri(ConfigSettings.Database, ConfigSettings.Collection),
-                new FeedOptions { MaxItemCount = -1 })
+                new FeedOptions {MaxItemCount = -1})
                 .Where(predicate)
                 .AsDocumentQuery();
 

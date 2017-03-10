@@ -23,12 +23,13 @@ namespace TrashTalkApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TrashCan trashCan)
+        [Route("create")]
+        public async Task<IHttpActionResult> Create(TrashCan trashCan)
         {
             var trashCanId = Guid.NewGuid();
             trashCan.id = trashCanId.ToString();
-            trashCan.TrashCanStatuses = new List<TrashCanStatus>();
-            await _documentDbRepository.CreateItemAsync(trashCan);
+            trashCan.TrashCanStatuses = new List<StoredTrashCanStatus>();
+            await DocumentDbRepository<TrashCan>.CreateItemAsync(trashCan);
             return Ok(trashCanId);
         }
         [HttpPost]

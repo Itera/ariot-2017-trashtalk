@@ -114,6 +114,7 @@
     <Compile Include="Models\StoredTrashCanStatus.cs" />
     <Compile Include="Models\Distance.cs" />
     <Compile Include="Models\Temperature.cs" />
+    <Compile Include="Models\TrashCan.cs" />
     <Compile Include="Models\TrashCanStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DocumentDbRepository.cs" />

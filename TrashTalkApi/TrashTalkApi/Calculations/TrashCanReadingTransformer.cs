@@ -15,7 +15,6 @@ namespace TrashTalkApi.Calculations
             StoredTrashCanStatus result = new StoredTrashCanStatus();
 
             result.Accelerometer = incomingStatus.Accelerometer;
-            result.DeviceId = incomingStatus.DeviceId;
             result.Distance = incomingStatus.Distance;
             result.Temperature = incomingStatus.Temperature;
             result.Timestamp = incomingStatus.Timestamp;

@@ -21,7 +21,8 @@ get an idea of the types of trash in the can, and how much it can be
 compressed. If the can is full, but very light, we can assume that the
 contents can be compacted by the garbage truck, which means we can empty more
 trash cans in one round. This sensor will be connected to an Arduino Uno
-placed in the bottom of the can.
+placed in the bottom of the can, which runs the code provided in
+`arduino/weight`.
 
 The two Arduinos and the SensorTag are connected to a Raspberry PI placed on
 the back side of the trash can. The Arduinos are connected with USB and
@@ -76,3 +77,37 @@ Replace Azure DocumentDB settings in `Web.config`:
   <add key="collection" value="[CollectionName]" />
 </appSettings>
 ```
+
+
+Arduino
+-------
+
+To run the Arduinos, first connect the sensors to the pins defined in the
+files in the `arduino` directory. We use an Arduino Nano for `lid` and an
+Arduino Uno for `weight`. Then use the Arduino SDK to open each of the `.ino`
+files and upload them to the Arduinos. The Arduinos will run automatically
+when given power, so after uploading you just need to connect them to the
+Raspberry Pi with USB.
+
+
+Raspberry Pi
+------------
+
+The Raspberry Pi needs to be registered with the server. To do this, register
+a new device in the server and copy the device id to
+`~/.config/trashtalk/device_id` on the Pi. Then find the MAC address of your
+TI SensorTag and set `SENSORTAG_MAC` in `raspi/client.py` to this address. You
+can set the API endpoint with `API_PREFIX`.
+
+To run the program, you need to install some dependencies first. You can do
+this by running `pip install -r requirements.txt`. After setting the config
+and installing the dependencies, you simply need to run the program with
+`./raspi/client.py`.
+
+
+Android App
+-----------
+
+The Android App is set up as an Android Studio project. To run it you can
+import the project in Android Studio and install it on a device. You can
+change the API endpoint by editing `API_PREFIX` in `MainActivity.java`.

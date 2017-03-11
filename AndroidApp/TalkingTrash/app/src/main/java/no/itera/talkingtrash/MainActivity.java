@@ -19,10 +19,15 @@ import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
+    final static String API_PREFIX = "://trashtalkapi.azurewebsites.net/api/trashstream/";
 
     WebSocketClient mWebSocketClient = null;
     String mDeviceId = "";
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void connectWebSocket() {
         URI uri;
         try {
-            uri = new URI("ws://trashtalkapi.azurewebsites.net/api/trashstream/" + mDeviceId);
+            uri = new URI("ws" + API_PREFIX + mDeviceId);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
@@ -80,6 +85,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.i("Websocket", "Opened");
+
+                HttpURLConnection urlConnection = null;
+                try {
+                    URL url = new URL("http" + API_PREFIX + "fetch/" + mDeviceId);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.getResponseCode();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
             }
 
             @Override

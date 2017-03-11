@@ -11,7 +11,7 @@ def numpyify_data(input, label_key='FillGrade'):
     X = np.zeros((len(input), 3))
 
     for a in range(len(input)):
-        X[a,0] = input[a]['Distance']['Sensor1']
+        X[a,0] = input[a]['Temperature']['Ambient']
         X[a,1] = input[a]['Weight']
         X[a,2] = input[a]['Flame']
 

@@ -31,7 +31,6 @@ def generate_lid_is_closed_point():
 
 
 def noisy_fi(reading, sd_base):
-    print(reading)
     return np.random.normal(reading, sd_base, 1)[0]
 
 
@@ -56,8 +55,8 @@ def generate_one_signal_series(n=10):
                 'z': generate_accelorometer_point()
             },
             'distance': {
-                'sensor1': distances[0],
-                'sensor2': distances[1]
+                'sensor1': int(distances[0]),
+                'sensor2': int(distances[1])
             },
             'flame': generate_flame_point(),
             'lidIsClosed': generate_lid_is_closed_point(),
@@ -67,7 +66,7 @@ def generate_one_signal_series(n=10):
             }
         })
         series.append(sensor_data)
-
+    random.shuffle(series)
     return series
 
 
@@ -80,8 +79,8 @@ def generate_one_random_point():
             'z': generate_accelorometer_point()
         },
         'distance': {
-            'sensor1': distances[0],
-            'sensor2': distances[1]
+            'sensor1': int(distances[0]),
+            'sensor2': int(distances[1])
         },
         'flame': generate_flame_point(),
         'lidIsClosed': generate_lid_is_closed_point(),
@@ -131,8 +130,10 @@ def fetch_guid(address, api_location='https://trashtalkapi.azurewebsites.net/api
 def post_data_for_one_guid(guid, data, api_prefix = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'):
     post_url = api_prefix + guid + '/status'
     post_headers = {'Content-Type': 'application/json'}
+
     for sensor_data in data:
-        requests.post(url=post_url, headers=post_headers, data=sensor_data)
+        result = requests.post(url=post_url, headers=post_headers, data=sensor_data)
+        print(result.text)
     print("Posted for: {} \ndata: {}".format(guid, data))
 
 
@@ -153,6 +154,3 @@ def generate_and_post_dummy_data():
 
 if __name__ == '__main__':
     generate_and_post_dummy_data()
-
-    for sig in generate_one_signal_series():
-        print(sig)

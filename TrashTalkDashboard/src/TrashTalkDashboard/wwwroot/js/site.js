@@ -12,6 +12,10 @@
             $('#address').val("");
         });
     });
+
+    $.get("heatmap/points", function (data) {
+        initMap(data);
+    });
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {

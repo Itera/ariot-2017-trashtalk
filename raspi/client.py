@@ -12,7 +12,7 @@ import time
 SEND_INTERVAL = 5
 POLL_INTERVAL = 1
 API_PREFIX = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'
-SERIAL_DEVICE = '/dev/ttyUSB0'
+SERIAL_DEVICES = ['/dev/ttyUSB0', '/dev/ttyUSB1']
 BAUD_RATE = 9600
 SENSORTAG_MAC = 'A0:E6:F8:AF:3E:06'
 
@@ -22,7 +22,8 @@ with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
 post_url = API_PREFIX + device_id + '/status'
 post_headers = {'Content-Type': 'application/json'}
 
-ultrasound = serial.Serial(SERIAL_DEVICE, BAUD_RATE)
+serial_connections = [
+    serial.Serial(device, BAUD_RATE) for device in SERIAL_DEVICES]
 
 tag = sensortag.SensorTag(SENSORTAG_MAC)
 tag.IRtemperature.enable()
@@ -31,20 +32,24 @@ tag.accelerometer.enable()
 arduino_readings = {
     'distance1': 0,
     'distance2': 0,
-    'flame': 0
+    'flame': 0,
+    'weight': 0
 }
 
 
 def worker():
-    ultrasound.flushInput()
+    for conn in serial_connections:
+        conn.flushInput()
+
     while True:
-        reading = ultrasound.readline().strip()
-        try:
-            fields = reading.decode().split(':')
-            if len(fields) == 2:
-                arduino_readings[fields[0]] = int(fields[1])
-        except UnicodeDecodeError:
-            pass
+        for conn in serial_connections:
+            try:
+                reading = conn.readline().strip()
+                fields = reading.decode().split(':')
+                if len(fields) == 2:
+                    arduino_readings[fields[0]] = fields[1]
+            except UnicodeDecodeError:
+                pass
 
 
 thread = threading.Thread(target=worker)
@@ -80,7 +85,8 @@ while True:
             'temperature': {
                 'ambient': temperature[0],
                 'target': temperature[1]
-            }
+            },
+            'weight': arduino_readings['weight']
         })
         print(sensor_data)
         requests.post(url=post_url, headers=post_headers, data=sensor_data)

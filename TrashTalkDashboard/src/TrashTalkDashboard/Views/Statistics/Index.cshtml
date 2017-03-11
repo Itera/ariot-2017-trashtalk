@@ -1,0 +1,47 @@
+﻿@model TrashTalkDashboard.Models.StatisticsViewModel
+<div class="circle @Model.CircleClassFillPercentage" style="margin-top: 5px">How full: <br/>@Model.AverageFillPercentage %</div>
+<div class="circle @Model.CircleClassWeigth" style="margin-top: 5px; margin-left:5px">How heavy: <br/>@Model.AverageWeight</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Device ID</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Address</th>
+            <th>Weight</th>
+            <th>Fill grade</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TrashCans)
+        {
+            @if (item.LatestReading.ShouldBeEmptied)
+             {
+
+
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.id)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Lat)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Long)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Address)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.LatestReading.Weight)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.LatestReading.FillGrade)
+                     </td>
+
+                 </tr>
+            }
+        }
+    </tbody>
+</table>

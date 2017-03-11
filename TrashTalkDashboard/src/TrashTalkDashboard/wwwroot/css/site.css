@@ -25,6 +25,20 @@
 .navbar-inverse .navbar-brand {
     color: #fff;
 }
+.circle{
+  height: 100px;
+  width: 100px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+ font-weight: bold;
+    border: 1px solid;
+}
+.greenCircle{ background: lightgreen;}
+.yellowCircle { background: yellow; }
+.orangeCircle{background: orange;}
+.redCircle{ background: red;}
 
 #map {
     position: static !important;

@@ -4,8 +4,14 @@
 <hr>
 <h2>Search by device ID</h2>
 <form asp-controller="Home" asp-action="Index" method="post">
-    <input type="text" name="SearchString">
-    <input type="submit" value="Search" />
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="SearchString">
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-default" value="Search" />
+        </div>
+    </div>
 </form>
 <div></div>
 @if (Model != null)
@@ -28,7 +34,7 @@
     <div class="col-sm-2">@Html.DisplayFor(modelItem => modelItem.LatestReading.Timestamp)</div>
 </div>
 
-<h3>Historical readings</h3>
+    <h3>Historical readings</h3>
 <div class="row top-buffer">
     <div class="col-sm-3"><strong>Distance (sensor1, sensor2)</strong></div>
     <div class="col-sm-2"><strong>Ambient temp</strong></div>

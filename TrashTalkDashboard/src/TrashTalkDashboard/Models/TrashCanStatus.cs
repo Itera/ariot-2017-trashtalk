@@ -13,5 +13,17 @@ namespace TrashTalkDashboard.Models
         public bool LidIsClosed { get; set; }
         public decimal Weight { get; set; }
 
+        public bool ShouldBeEmptied
+        {
+            get
+            {
+                if (FillGrade.HasValue && FillGrade.Value > 80)
+                    return true;
+                if (Weight > 20)
+                    return true;
+                return false;
+            }
+        }
+
     }
 }

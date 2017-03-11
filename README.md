@@ -28,3 +28,45 @@ the back side of the trash can. The Arduinos are connected with USB and
 communicates over a serial bus. The SensorTag is connected with Bluetooth. The
 Raspberry PI runs the code provided in `raspi` to collect the data and push
 it to the server.
+
+Gettings started
+================
+
+Prerequisites:
+* Setup a DocumentDb in Azure
+* Google Maps ApiKey 
+
+
+TrashTalkDasboard solution
+--------------------------
+Replace Azure DocumentDB settings
+src/Web.config:
+```
+"ConnectionStrings": {
+    "DefaultConnection": [LocalDBConnectionString]
+  },
+  "DatabaseSettings": {
+    "Collection": [CollectionName],
+    "Database": [DbName],
+    "AuthKey": "[AuthKey]",
+    "Endpoint": "[EndpointUrl]"
+  },
+  ```
+Replace googleApiKey
+src/Views/Heatmap/index.cshtml
+  ```
+  <script src="https://maps.googleapis.com/maps/api/js?key=[GoogleApiKey]&libraries=visualization&callback=initMap" async defer></script>
+  ```
+  
+TrashTalkApi solution 
+---------------------
+Replace Azure DocumentDB settings
+src/App.config:
+```
+  <appSettings>
+    <add key="endpoint" value="[Endpoint URL]" />
+    <add key="authKey" value="[AuthKey]" />
+    <add key="database" value="trashTalk" />
+    <add key="collection" value="[CollectionName]" />
+  </appSettings>
+```

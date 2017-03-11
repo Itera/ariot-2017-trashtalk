@@ -24,10 +24,10 @@ namespace TrashTalkApi.WebSocket
             var clients = Clients.Where(c => ((TrashWebSocketHandler)c).DeviceId == deviceId);
             foreach (var c in clients)
             {
-                var data = Task.Run(() => DocumentDbRepository<TrashCan>.GetItemAsync(deviceId)).Result.LatestReading;
+                var data = Task.Run(() => DocumentDbRepository<TrashCan>.GetItemAsync(deviceId)).Result;
 
                 if (data != null)
-                    ((TrashWebSocketHandler)c).Send(JsonConvert.SerializeObject(data));
+                    ((TrashWebSocketHandler)c).Send(JsonConvert.SerializeObject(data.LatestReading));
             }
         }
 

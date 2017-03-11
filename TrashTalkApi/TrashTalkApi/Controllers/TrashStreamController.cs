@@ -21,7 +21,7 @@ namespace TrashTalkApi.Controllers
         }
 
         [HttpGet]
-        [Route("/fetch/{deviceId}")]
+        [Route("fetch/{deviceId}")]
         public HttpResponseMessage GetTest(string deviceId)
         {
             TrashWebSocketHandler.SendTrashCanStaus(deviceId);

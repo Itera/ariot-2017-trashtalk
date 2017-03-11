@@ -17,7 +17,7 @@ namespace TrashTalkApi.Calculations
                 return (decimal) 1.0;
             if (height >= MAX_TRASH_CAN_HEIGHT)
                 return 0;
-            return height / MAX_TRASH_CAN_HEIGHT;
+            return 1 - (height / MAX_TRASH_CAN_HEIGHT);
         }
     }
 }

@@ -4,6 +4,7 @@ from bluepy import sensortag
 from os.path import expanduser
 from time import sleep
 import json
+import os
 import requests
 import serial
 import threading
@@ -12,7 +13,6 @@ import time
 SEND_INTERVAL = 5
 POLL_INTERVAL = 1
 API_PREFIX = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'
-SERIAL_DEVICES = ['/dev/ttyUSB0', '/dev/ttyUSB1']
 BAUD_RATE = 9600
 SENSORTAG_MAC = 'A0:E6:F8:AF:3E:06'
 
@@ -22,8 +22,10 @@ with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
 post_url = API_PREFIX + device_id + '/status'
 post_headers = {'Content-Type': 'application/json'}
 
+serial_devices = [
+    '/dev/' + file for file in os.listdir('/dev') if file.startswith('ttyUSB')]
 serial_connections = [
-    serial.Serial(device, BAUD_RATE) for device in SERIAL_DEVICES]
+    serial.Serial(device, BAUD_RATE) for device in serial_devices]
 
 tag = sensortag.SensorTag(SENSORTAG_MAC)
 tag.IRtemperature.enable()

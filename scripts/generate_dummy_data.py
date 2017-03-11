@@ -2,14 +2,14 @@ import json
 import random
 from functools import partial
 import requests
+import numpy as np
 
 
 def generate_accelorometer_point():
     return random.uniform(-1.5, 1.5)
 
 
-def generate_distance_points():
-    d1 = random.randrange(0,90)
+def generate_distance_points(d1=random.randrange(0,90)):
     d2 = d1 + random.randrange(-5, 5)
     if d2 < 0:
         d2 = 0
@@ -30,6 +30,47 @@ def generate_lid_is_closed_point():
     return random.random() > 0.01
 
 
+def noisy_fi(reading, sd_base):
+    print(reading)
+    return np.random.normal(reading, sd_base, 1)[0]
+
+
+def generate_one_signal_series(n=10):
+
+    distance = 85
+    target_distance = 5
+    distance_step = (target_distance - distance) / n
+    temp = 0
+    target_temp = 30
+    temp_step = (target_temp - temp) / n
+
+    distance_series = [generate_distance_points(noisy_fi(distance + distance_step * i, 2)) for i in range(n)]
+    temp_series = [noisy_fi(temp + temp_step * i, 1) for i in range(n)]
+
+    series = []
+    for distances, temp_reading in zip(distance_series, temp_series):
+        sensor_data = json.dumps({
+            'accelerometer': {
+                'x': generate_accelorometer_point(),
+                'y': generate_accelorometer_point(),
+                'z': generate_accelorometer_point()
+            },
+            'distance': {
+                'sensor1': distances[0],
+                'sensor2': distances[1]
+            },
+            'flame': generate_flame_point(),
+            'lidIsClosed': generate_lid_is_closed_point(),
+            'temperature': {
+                'ambient': temp_reading,
+                'target': temp_reading
+            }
+        })
+        series.append(sensor_data)
+
+    return series
+
+
 def generate_one_random_point():
     distances = generate_distance_points()
     sensor_data = json.dumps({
@@ -45,8 +86,8 @@ def generate_one_random_point():
         'flame': generate_flame_point(),
         'lidIsClosed': generate_lid_is_closed_point(),
         'temperature': {
-            'ambient': 20,
-            'target': 20
+            'ambient': random.randrange(0, 25),
+            'target': random.randrange(0, 25)
         }
     })
 
@@ -54,7 +95,8 @@ def generate_one_random_point():
 
 
 def generate_n_per_guid(guids, n_func=partial(random.randrange, 1, 10)):
-    return {guid: [generate_one_random_point() for n in range(n_func())] for guid in guids}
+
+    return {guid: generate_one_signal_series(n_func()) for guid in guids}
 
 
 def load_addresses():
@@ -111,3 +153,6 @@ def generate_and_post_dummy_data():
 
 if __name__ == '__main__':
     generate_and_post_dummy_data()
+
+    for sig in generate_one_signal_series():
+        print(sig)

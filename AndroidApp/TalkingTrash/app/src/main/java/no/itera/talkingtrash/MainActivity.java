@@ -113,19 +113,17 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView textViewStatusPickup = (TextView) findViewById(R.id.status_pickup_text);
-                        TextView textViewStatusFillGrade = (TextView) findViewById(R.id.status_fill_grade_text);
                         TextView textViewStatusLid = (TextView) findViewById(R.id.status_lid_text);
+                        TextView textViewStatusFillGrade = (TextView) findViewById(R.id.status_fill_grade_text);
                         TextView textViewStatusLastUpdated = (TextView) findViewById(R.id.status_last_updated);
-                        ImageView imageViewStatusPickup = (ImageView) findViewById(R.id.status_pickup_image);
+                        ImageView imageViewStatusLid = (ImageView) findViewById(R.id.status_lid_image);
                         ProgressBar progressBarStatusFillGrade = (ProgressBar) findViewById(R.id.status_fill_grade_progress_bar);
 
                         try {
-                            textViewStatusPickup.setText(reader.getString("Timestamp"));
+                            textViewStatusLid.setText("The lid is " + (reader.getBoolean("LidIsClosed") ? "closed" : "open"));
                             textViewStatusFillGrade.setText("Fill grade is " + Double.toString(reader.getDouble("FillGrade")));
-                            textViewStatusLid.setText("The lid is " + (reader.getBoolean("LidIsClosed") ? "closed" : "open") + ".");
-                            textViewStatusLastUpdated.setText("Last updated " + reader.getString("Timestamp"));
-                            imageViewStatusPickup.setImageResource(reader.getBoolean("LidIsClosed") ? R.drawable.circle_green : R.drawable.circle_red);
+                            textViewStatusLastUpdated.setText("Last updated at " + reader.getString("Timestamp"));
+                            imageViewStatusLid.setImageResource(reader.getBoolean("LidIsClosed") ? R.drawable.circle_green : R.drawable.circle_red);
                             progressBarStatusFillGrade.setProgress((int) (reader.getDouble("FillGrade") * 100));
                         } catch (JSONException e) {
                             e.printStackTrace();

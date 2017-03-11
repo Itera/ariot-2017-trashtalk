@@ -24,6 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -120,11 +123,22 @@ public class MainActivity extends AppCompatActivity {
                         ProgressBar progressBarStatusFillGrade = (ProgressBar) findViewById(R.id.status_fill_grade_progress_bar);
 
                         try {
+                            int percentFull = (int) (reader.getDouble("FillGrade") * 100);
+                            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            String lastUpdated = "";
+                            try {
+                                Date date = parser.parse(reader.getString("Timestamp"));
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                lastUpdated = formatter.format(date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             textViewStatusLid.setText("The lid is " + (reader.getBoolean("LidIsClosed") ? "closed" : "open"));
-                            textViewStatusFillGrade.setText("Fill grade is " + Double.toString(reader.getDouble("FillGrade")));
-                            textViewStatusLastUpdated.setText("Last updated at " + reader.getString("Timestamp"));
+                            textViewStatusFillGrade.setText("The can is " + Integer.toString(percentFull) + "% full");
+                            textViewStatusLastUpdated.setText("Last updated at " + lastUpdated);
                             imageViewStatusLid.setImageResource(reader.getBoolean("LidIsClosed") ? R.drawable.circle_green : R.drawable.circle_red);
-                            progressBarStatusFillGrade.setProgress((int) (reader.getDouble("FillGrade") * 100));
+                            progressBarStatusFillGrade.setProgress(percentFull);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             return;

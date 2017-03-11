@@ -47,7 +47,7 @@ namespace TrashTalkApi.Controllers
             existing.TrashCanStatuses.Add(storedTrashCanStatus);
             await DocumentDbRepository<TrashCan>.UpdateItemAsync(existing.id, existing);
 
-            TrashWebSocketHandler.SendMessage(deviceId, trashCanStatus);
+            TrashWebSocketHandler.SendTrashCanStaus(deviceId);
 
             return Ok();
         }

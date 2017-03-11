@@ -1,0 +1,16 @@
+[Unit]
+Description=Talking Trash
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=notify
+User=pi
+ExecStart=/home/pi/dev/ariot-2017-trashtalk/raspi/client.py
+Restart=always
+StartLimitBurst=0
+WatchdogSec=30
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

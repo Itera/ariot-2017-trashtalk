@@ -6,6 +6,7 @@ from time import sleep
 import json
 import os
 import requests
+import sdnotify
 import serial
 import threading
 import time
@@ -15,6 +16,8 @@ POLL_INTERVAL = 1
 API_PREFIX = 'https://trashtalkapi.azurewebsites.net/api/trashcan/'
 BAUD_RATE = 9600
 SENSORTAG_MAC = 'A0:E6:F8:AF:3E:06'
+
+systemd_notifier = sdnotify.SystemdNotifier()
 
 with open(expanduser('~') + '/.config/trashtalk/device_id') as file:
     device_id = file.read().strip()
@@ -58,6 +61,7 @@ thread = threading.Thread(target=worker)
 thread.start()
 
 sleep(2)
+systemd_notifier.notify('READY=1')
 
 last_send_time = time.time() - SEND_INTERVAL
 last_lid_is_closed = False
@@ -95,4 +99,5 @@ while True:
         last_send_time = time.time()
 
     last_lid_is_closed = lid_is_closed
+    systemd_notifier.notify('WATCHDOG=1')
     sleep(POLL_INTERVAL)

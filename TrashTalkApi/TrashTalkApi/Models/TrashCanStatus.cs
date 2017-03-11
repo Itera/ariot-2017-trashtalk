@@ -10,5 +10,6 @@ namespace TrashTalkApi.Models
         public int Flame { get; set; }
         public Temperature Temperature { get; set; }
         public bool LidIsClosed { get; set; }
+        public Decimal Weight { get; set; }
     }
 }

@@ -20,7 +20,8 @@ namespace TrashTalkApi.Calculations
                 Timestamp = incomingStatus.Timestamp,
                 Flame = incomingStatus.Flame,
                 LidIsClosed = incomingStatus.LidIsClosed,
-                FillGrade = fillGrade
+                FillGrade = fillGrade,
+                Weight = incomingStatus.Weight
             };
 
 

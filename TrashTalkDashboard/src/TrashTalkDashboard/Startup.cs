@@ -87,27 +87,7 @@ namespace TrashTalkDashboard
 
         private async void SeedUsers(IApplicationBuilder app)
         {
-            //var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
-            //var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
-            //// Add missing roles
-            //var adminRole = await roleManager.FindByNameAsync("Administrator");
-            //if (adminRole == null)
-            //{
-            //    adminRole = new IdentityRole("Administrator");
-            //    await roleManager.CreateAsync(adminRole);
-            //}
-
-            //// Create test users
-            //var admin = await userManager.FindByNameAsync("oyvindsbk@gmail.com");
-            //if (admin == null)
-            //{
-            //    admin = new ApplicationUser()
-            //    {
-            //        UserName = "oyvindsbk@gmail.com",
-            //    };
-            //    await userManager.CreateAsync(admin, "JctZ6WPap8");
-            //    await userManager.AddToRoleAsync(admin, "Administrator");
-            //}
+            
         }
     }
 }

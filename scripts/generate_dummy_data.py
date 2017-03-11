@@ -46,8 +46,10 @@ def generate_one_signal_series(n=10):
     distance_series = [generate_distance_points(noisy_fi(distance + distance_step * i, 2)) for i in range(n)]
     temp_series = [noisy_fi(temp + temp_step * i, 1) for i in range(n)]
 
+    weight_series = [noisy_fi(30*(85-d1) / 85, 5) for d1, d2 in distance_series]
+
     series = []
-    for distances, temp_reading in zip(distance_series, temp_series):
+    for distances, temp_reading, weight in zip(distance_series, temp_series, weight_series):
         sensor_data = json.dumps({
             'accelerometer': {
                 'x': generate_accelorometer_point(),
@@ -63,7 +65,8 @@ def generate_one_signal_series(n=10):
             'temperature': {
                 'ambient': temp_reading,
                 'target': temp_reading
-            }
+            },
+            'weight': max(weight, 0)
         })
         series.append(sensor_data)
     random.shuffle(series)
@@ -87,7 +90,8 @@ def generate_one_random_point():
         'temperature': {
             'ambient': random.randrange(0, 25),
             'target': random.randrange(0, 25)
-        }
+        },
+        'weight': random.randrange(0, 30)
     })
 
     return sensor_data

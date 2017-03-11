@@ -30,6 +30,7 @@ communicates over a serial bus. The SensorTag is connected with Bluetooth. The
 Raspberry PI runs the code provided in `raspi` to collect the data and push
 it to the server.
 
+####Note: there are a few util scripts in the scripts folder, go chek them out to fill your system with data!
 
 Gettings started
 ================
